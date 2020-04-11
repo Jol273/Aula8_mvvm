@@ -1,0 +1,2 @@
+rootProject.name='Aula8_mvvm'
+include ':app'
