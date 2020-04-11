@@ -17,13 +17,12 @@ import kotlinx.coroutines.launch
 class HistoryFragment : Fragment() {
 
     private val storage = ListStorage()
-    private var operations = listOf<Operation>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
 
         CoroutineScope(Dispatchers.IO).launch {
-            operations = storage.getAll()
+            val operations = storage.getAll()
             view.list_history.adapter = HistoryAdapter(activity as Context, R.layout.item_expression, operations)
             view.list_history.layoutManager = LinearLayoutManager(activity as Context)
         }
