@@ -11,8 +11,6 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_calculator.*
 
-const val EXTRA_HISTORY = "com.example.aula8_mvvm"
-
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
     private val VISOR_KEY = "visor"

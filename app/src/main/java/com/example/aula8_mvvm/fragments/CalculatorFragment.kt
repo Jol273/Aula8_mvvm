@@ -1,15 +1,21 @@
 package com.example.aula8_mvvm.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.ButterKnife
+import butterknife.OnClick
+import butterknife.Optional
 import com.example.aula8_mvvm.*
 import kotlinx.android.synthetic.main.fragment_calculator.*
+import kotlinx.android.synthetic.main.fragment_calculator.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,18 +24,20 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
     private val TAG = MainActivity::class.java.simpleName
 
-    var text = SimpleDateFormat("HH:mm:ss").format(Date())
-    private val duration = Toast.LENGTH_SHORT
-    var lastExpression = ""
-
     private lateinit var viewModel: CalculatorViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_calculator, container, false)
+        makeHistory(view)
         viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
         //viewModel.display.let { view.text_visor.text = it }
         ButterKnife.bind(this,view)
         return view
+    }
+
+    private fun makeHistory(view: View){
+        view?.list_history?.layoutManager = LinearLayoutManager(activity as Context)
+        view?.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, ListStorage().getAll())
     }
 
     override fun onStart() {
@@ -45,17 +53,19 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         viewModel.unregisterListener()
         super.onDestroy()
     }
-/*
+
+    @Optional
     @OnClick(R.id.button_last)
     fun onClickLast(view: View){
+        viewModel.onClickLastExpression()
         Log.i(TAG,"Click no botão Ultima Conta")
-        text_visor.text = lastExpression
+
     }
 
     @OnClick(R.id.button_clear)
     fun onClickClear(view: View){
         Log.i(TAG,"Click no botão C")
-        text_visor.text = "0"
+        viewModel.onClickClear()
         /*val toast = Toast.makeText(this, "$text button_clear", duration)
         toast.show()*/
     }
@@ -63,13 +73,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
     @OnClick(R.id.button_backspace)
     fun onClickBackSpace(view: View){
         Log.i(TAG,"Click no botão >")
-        var str = text_visor.text
-        if(str.length > 1) {
-            str = str.substring(0,str.length - 1)
-            text_visor.text = str
-        } else if(str.length <= 1){
-            text_visor.text = "0"
-        }
+        viewModel.onClickBackspace()
         /*val toast = Toast.makeText(this, "$text button_backspace", duration)
         toast.show()*/
     }
@@ -77,7 +81,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
     @Optional
     @OnClick(R.id.button_0,R.id.button_00,R.id.button_1,R.id.button_2,R.id.button_3,R.id.button_4,R.id.button_5,R.id.button_6,R.id.button_7,R.id.button_8,R.id.button_9,R.id.button_dot,R.id.button_adition,R.id.button_subtraction,R.id.button_multiplication,R.id.button_division)
     fun onClickSymbol(view: View){
-        text_visor.text = viewModel.onClickSymbol(view.tag.toString())
+        viewModel.onClickSymbol(view.tag.toString())
     }
 
     @OnClick(R.id.button_equals)
@@ -87,8 +91,5 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         /*val toast = Toast.makeText(this, "$text button_equals", duration)
         toast.show()*/
     }
-
- */
-
 
 }

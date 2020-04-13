@@ -21,13 +21,11 @@ class HistoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
 
-        CoroutineScope(Dispatchers.IO).launch {
+        //CoroutineScope(Dispatchers.Main).launch {
             val operations = storage.getAll()
-            view.list_history.adapter = HistoryAdapter(activity as Context, R.layout.item_expression, operations)
             view.list_history.layoutManager = LinearLayoutManager(activity as Context)
-        }
-
-
+            view.list_history.adapter = HistoryAdapter(activity as Context, R.layout.item_expression, operations)
+        //}
         return view
     }
 

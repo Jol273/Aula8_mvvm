@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ListStorage {
-    private val storage = mutableListOf<Operation>(Operation("1+1", 2.0), Operation("2+3", 5.0))
+    private val storage = mutableListOf(Operation("1+1", 2.0), Operation("2+3", 5.0))
 
 
     companion object{
@@ -20,24 +20,31 @@ class ListStorage {
         }
     }
 
-    suspend fun insert(operation: Operation){
-        withContext(Dispatchers.IO){
-            Thread.sleep(1000)
+    //suspend
+    fun insert(operation: Operation){
+        //withContext(Dispatchers.IO){
+            //Thread.sleep(1000)
             storage.add(operation)
-        }
+        //}
     }
 
 
-    suspend fun getAll() : List<Operation>{
-        withContext(Dispatchers.IO) {Thread.sleep(1000)}
+    //suspend
+    fun getAll() : List<Operation>{
+        //withContext(Dispatchers.IO) {Thread.sleep(1000)}
         return storage.toList()
     }
 
-    suspend fun delete(operation: Operation){
-        withContext(Dispatchers.IO){
+    //suspend
+    fun delete(operation: Operation){
+        /*withContext(Dispatchers.IO){
             Thread.sleep(1000)
+        }*/
             storage.remove(operation)
-        }
+    }
+
+    fun getLastExpression(): String{
+        return storage[storage.size-1].expresssion
     }
 
 }

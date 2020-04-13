@@ -17,10 +17,22 @@ class CalculatorLogic {
     fun performOperation(expression : String): Double {
         val expressionBuilder = ExpressionBuilder(expression).build()
         val result = expressionBuilder.evaluate()
-        CoroutineScope(Dispatchers.IO).launch {
-            storage.insert(Operation(expression,result))
-        }
+        //CoroutineScope(Dispatchers.IO).launch {
+        storage.insert(Operation(expression,result))
+        //}
         return result
+    }
+
+    fun performBackspace(display: String): String{
+        return display.padEnd(1)
+    }
+
+    fun performOperationClear(): String{
+        return "0"
+    }
+
+    fun getLastExpression(): String{
+        return storage.getLastExpression()
     }
 
 }

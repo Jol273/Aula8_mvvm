@@ -7,7 +7,7 @@ import butterknife.Optional
 class CalculatorViewModel : ViewModel() {
 
     private val calculatorLogic = CalculatorLogic()
-    var display: String = ""
+    var display: String = "0"
 
     private var listener: OnDisplayChanged? = null
 
@@ -22,17 +22,29 @@ class CalculatorViewModel : ViewModel() {
 
     fun unregisterListener(){ listener = null }
 
-
-    /*@Optional
-    @OnClick(R.id.button_0,R.id.button_00,R.id.button_1,R.id.button_2,R.id.button_3,R.id.button_4,R.id.button_5,R.id.button_6,R.id.button_7,R.id.button_8,R.id.button_9,R.id.button_dot,R.id.button_adition,R.id.button_subtraction,R.id.button_multiplication,R.id.button_division)
-    */fun onClickSymbol(symbol: String) : String {
+    fun onClickSymbol(symbol: String) {
         display = calculatorLogic.insertSymbol(display,symbol)
-        return display
+        notifyOnDisplayChanged()
     }
 
-    fun onClickEquals(): String{
-        val result = calculatorLogic.performOperation(display)
-        display = result.toString()
-        return display
+    fun onClickEquals(){
+        display = calculatorLogic.performOperation(display).toString()
+        notifyOnDisplayChanged()
     }
+
+    fun onClickBackspace(){
+        display = calculatorLogic.performBackspace(display)
+        notifyOnDisplayChanged()
+    }
+
+    fun onClickClear(){
+        display = calculatorLogic.performOperationClear()
+        notifyOnDisplayChanged()
+    }
+    
+    fun onClickLastExpression(){
+        display = calculatorLogic.getLastExpression()
+        notifyOnDisplayChanged()
+    }
+
 }
