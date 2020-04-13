@@ -24,7 +24,7 @@ class CalculatorLogic {
     }
 
     fun performBackspace(display: String): String{
-        return display.padEnd(1)
+        return display.dropLast(1)
     }
 
     fun performOperationClear(): String{

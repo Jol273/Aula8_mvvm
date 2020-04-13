@@ -3,7 +3,7 @@ package com.example.aula8_mvvm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ListStorage {
+class ListStorage private constructor(){
     private val storage = mutableListOf(Operation("1+1", 2.0), Operation("2+3", 5.0))
 
 

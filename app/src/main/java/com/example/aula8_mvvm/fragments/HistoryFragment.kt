@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment() {
 
-    private val storage = ListStorage()
+    private val storage = ListStorage.getInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
@@ -28,7 +28,6 @@ class HistoryFragment : Fragment() {
         //}
         return view
     }
-
 
 }
 

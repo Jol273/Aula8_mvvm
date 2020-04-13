@@ -37,7 +37,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
     private fun makeHistory(view: View){
         view?.list_history?.layoutManager = LinearLayoutManager(activity as Context)
-        view?.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, ListStorage().getAll())
+        view?.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, ListStorage.getInstance().getAll())
     }
 
     override fun onStart() {
@@ -88,6 +88,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
     fun onClickEquals(view : View){
         viewModel.onClickEquals()
         Log.i(TAG, "O resultado da expressão é ${text_visor.text}")
+        makeHistory(view)
         /*val toast = Toast.makeText(this, "$text button_equals", duration)
         toast.show()*/
     }
