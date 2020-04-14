@@ -1,26 +1,37 @@
 package com.example.aula8_mvvm
 
 import androidx.lifecycle.ViewModel
-import butterknife.OnClick
-import butterknife.Optional
+import com.example.aula8_mvvm.CalculatorLogic
+import com.example.aula8_mvvm.ListStorage
+import com.example.aula8_mvvm.OnDataSetChanged
+import com.example.aula8_mvvm.OnDisplayChanged
 
 class CalculatorViewModel : ViewModel() {
 
     private val calculatorLogic = CalculatorLogic()
     var display: String = "0"
+    private var storage = ListStorage.getInstance().getAll()
 
-    private var listener: OnDisplayChanged? = null
+    private var displayListener: OnDisplayChanged? = null
+    private var dataSetListener: OnDataSetChanged? = null
 
-    private fun notifyOnDisplayChanged(){
-        listener?.onDisplayChanged(display)
+    private fun notifyOnDisplayChanged(){ displayListener?.onDisplayChanged(display) }
+
+    private fun notifyOnDataSetChanged(){ dataSetListener?.onDataSetChanged(storage) }
+
+    fun registerDataSetListener(dataSetListener: OnDataSetChanged){
+        this.dataSetListener = dataSetListener
+        dataSetListener.onDataSetChanged(storage)
     }
 
-    fun registerListener(listener: OnDisplayChanged){
-        this.listener = listener
-        listener.onDisplayChanged(display)
+    fun registerDisplayListener(displayListener: OnDisplayChanged){
+        this.displayListener = displayListener
+        displayListener.onDisplayChanged(display)
     }
 
-    fun unregisterListener(){ listener = null }
+    fun unregiserDataSetListener(){ dataSetListener = null}
+
+    fun unregisterDisplayListener(){ displayListener = null }
 
     fun onClickSymbol(symbol: String) {
         display = calculatorLogic.insertSymbol(display,symbol)
@@ -30,6 +41,7 @@ class CalculatorViewModel : ViewModel() {
     fun onClickEquals(){
         display = calculatorLogic.performOperation(display).toString()
         notifyOnDisplayChanged()
+        notifyOnDataSetChanged()
     }
 
     fun onClickBackspace(){

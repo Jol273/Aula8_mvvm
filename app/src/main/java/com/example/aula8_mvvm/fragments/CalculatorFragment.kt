@@ -7,20 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.ButterKnife
 import butterknife.OnClick
 import butterknife.Optional
 import com.example.aula8_mvvm.*
+import com.example.aula8_mvvm.CalculatorViewModel
 import kotlinx.android.synthetic.main.fragment_calculator.*
 import kotlinx.android.synthetic.main.fragment_calculator.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 
-class CalculatorFragment : Fragment(), OnDisplayChanged {
+class CalculatorFragment : Fragment(), OnDisplayChanged, OnDataSetChanged {
 
     private val TAG = MainActivity::class.java.simpleName
 
@@ -36,12 +34,13 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
     }
 
     private fun makeHistory(view: View){
-        view?.list_history?.layoutManager = LinearLayoutManager(activity as Context)
-        view?.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, ListStorage.getInstance().getAll())
+        view.list_history?.layoutManager = LinearLayoutManager(activity as Context)
+        view.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, ListStorage.getInstance().getAll())
     }
 
     override fun onStart() {
-        viewModel.registerListener(this)
+        viewModel.registerDisplayListener(this)
+        viewModel.registerDataSetListener(this)
         super.onStart()
     }
 
@@ -49,8 +48,14 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         value?.let {text_visor.text = it}
     }
 
+    @Optional
+    override fun onDataSetChanged(value: List<Operation>) {
+        value.let { view?.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, value)}
+    }
+
     override fun onDestroy() {
-        viewModel.unregisterListener()
+        viewModel.unregisterDisplayListener()
+        viewModel.unregiserDataSetListener()
         super.onDestroy()
     }
 

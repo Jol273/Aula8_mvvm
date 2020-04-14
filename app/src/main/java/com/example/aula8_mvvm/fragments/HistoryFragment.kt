@@ -14,9 +14,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : Fragment(), OnDataSetChanged {
 
-    private val storage = ListStorage.getInstance()
+    private var storage = ListStorage.getInstance()
+
+    private var dataSetChanged: OnDataSetChanged?= null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
@@ -28,6 +30,11 @@ class HistoryFragment : Fragment() {
         //}
         return view
     }
+
+    override fun onDataSetChanged(value: List<Operation>) {
+
+    }
+
 
 }
 
