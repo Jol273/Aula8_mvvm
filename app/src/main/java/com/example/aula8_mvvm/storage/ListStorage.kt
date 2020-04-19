@@ -1,19 +1,22 @@
-package com.example.aula8_mvvm
+package com.example.aula8_mvvm.storage
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.aula8_mvvm.classes.Operation
 
 class ListStorage private constructor(){
-    private val storage = mutableListOf(Operation("1+1", 2.0), Operation("2+3", 5.0))
+    private val storage = mutableListOf(
+        Operation("1+1", 2.0),
+        Operation("2+3", 5.0)
+    )
 
 
     companion object{
         private var instance: ListStorage? = null
 
-        fun getInstance(): ListStorage{
+        fun getInstance(): ListStorage {
             synchronized(this){
                 if (instance == null){
-                    instance = ListStorage()
+                    instance =
+                        ListStorage()
                 }
                 return instance as ListStorage
             }

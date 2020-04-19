@@ -31,4 +31,11 @@
     <string name="drawer_close">Close</string>
     <string name="title">Title</string>
     <string name="Navigation_drawer">This is our navigation drawer</string>
+    <string name="registar_utilizador">Registar Utilizador</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="criar_registo">Criar Registo</string>
+    <string name="e_mail">E-mail</string>
+    <string name="confirme_password">Confirme Password</string>
 </resources>

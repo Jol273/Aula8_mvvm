@@ -1,10 +1,8 @@
 package com.example.aula8_mvvm
 
 import androidx.lifecycle.ViewModel
-import com.example.aula8_mvvm.CalculatorLogic
-import com.example.aula8_mvvm.ListStorage
-import com.example.aula8_mvvm.OnDataSetChanged
-import com.example.aula8_mvvm.OnDisplayChanged
+import com.example.aula8_mvvm.logics.CalculatorLogic
+import com.example.aula8_mvvm.storage.ListStorage
 
 class CalculatorViewModel : ViewModel() {
 
@@ -29,7 +27,7 @@ class CalculatorViewModel : ViewModel() {
         displayListener.onDisplayChanged(display)
     }
 
-    fun unregiserDataSetListener(){ dataSetListener = null}
+    fun unregisterDataSetListener(){ dataSetListener = null}
 
     fun unregisterDisplayListener(){ displayListener = null }
 

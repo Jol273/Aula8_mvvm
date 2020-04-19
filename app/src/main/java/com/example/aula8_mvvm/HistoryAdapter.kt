@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.aula8_mvvm.classes.Operation
 import kotlinx.android.synthetic.main.item_expression.view.*
 
 

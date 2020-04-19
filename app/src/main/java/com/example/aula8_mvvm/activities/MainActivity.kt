@@ -1,4 +1,4 @@
-package com.example.aula8_mvvm
+package com.example.aula8_mvvm.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import com.example.aula8_mvvm.NavigationManager
+import com.example.aula8_mvvm.R
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_calculator.*
@@ -23,7 +25,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setupDrawerMenu()
-        NavigationManager.goToCalculatorFragment(supportFragmentManager)
+        NavigationManager.goToCalculatorFragment(
+            supportFragmentManager
+        )
 
 }
 
@@ -32,7 +36,10 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
     private fun setupDrawerMenu(){
-        val toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close)
+        val toggle = ActionBarDrawerToggle(this, drawer, toolbar,
+            R.string.drawer_open,
+            R.string.drawer_close
+        )
         nav_drawer.setNavigationItemSelectedListener(this)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
@@ -56,8 +63,13 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.nav_calculator -> NavigationManager.goToCalculatorFragment(supportFragmentManager)
-            R.id.nav_history -> NavigationManager.goToHistoryFragment(supportFragmentManager)
+            R.id.nav_calculator -> NavigationManager.goToCalculatorFragment(
+                supportFragmentManager
+            )
+            R.id.nav_history -> NavigationManager.goToHistoryFragment(
+                supportFragmentManager
+            )
+            //R.id.nav_logout -> startActivity(Intent)
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

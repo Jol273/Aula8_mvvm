@@ -14,6 +14,9 @@ import butterknife.OnClick
 import butterknife.Optional
 import com.example.aula8_mvvm.*
 import com.example.aula8_mvvm.CalculatorViewModel
+import com.example.aula8_mvvm.activities.MainActivity
+import com.example.aula8_mvvm.classes.Operation
+import com.example.aula8_mvvm.storage.ListStorage
 import kotlinx.android.synthetic.main.fragment_calculator.*
 import kotlinx.android.synthetic.main.fragment_calculator.view.*
 
@@ -23,24 +26,26 @@ class CalculatorFragment : Fragment(), OnDisplayChanged, OnDataSetChanged {
     private val TAG = MainActivity::class.java.simpleName
 
     private lateinit var viewModel: CalculatorViewModel
+    private var operations = ListStorage.getInstance().getAll()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_calculator, container, false)
-        makeHistory(view)
+
         viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
         //viewModel.display.let { view.text_visor.text = it }
         ButterKnife.bind(this,view)
         return view
     }
 
-    private fun makeHistory(view: View){
-        view.list_history?.layoutManager = LinearLayoutManager(activity as Context)
-        view.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, ListStorage.getInstance().getAll())
+    private fun makeHistory(){
+        list_history?.layoutManager = LinearLayoutManager(activity as Context)
+        list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, operations)
     }
 
     override fun onStart() {
         viewModel.registerDisplayListener(this)
         viewModel.registerDataSetListener(this)
+        makeHistory()
         super.onStart()
     }
 
@@ -50,12 +55,12 @@ class CalculatorFragment : Fragment(), OnDisplayChanged, OnDataSetChanged {
 
     @Optional
     override fun onDataSetChanged(value: List<Operation>) {
-        value.let { view?.list_history?.adapter = HistoryAdapter(activity as Context,R.layout.item_expression, value)}
+        value.let { operations = it}
     }
 
     override fun onDestroy() {
         viewModel.unregisterDisplayListener()
-        viewModel.unregiserDataSetListener()
+        viewModel.unregisterDataSetListener()
         super.onDestroy()
     }
 
@@ -93,7 +98,6 @@ class CalculatorFragment : Fragment(), OnDisplayChanged, OnDataSetChanged {
     fun onClickEquals(view : View){
         viewModel.onClickEquals()
         Log.i(TAG, "O resultado da expressão é ${text_visor.text}")
-        makeHistory(view)
         /*val toast = Toast.makeText(this, "$text button_equals", duration)
         toast.show()*/
     }
